@@ -1,0 +1,112 @@
+<network>
+  <name>default</name>
+  <uuid>a848ee52-b097-45f0-9f85-7b3c211f39d3</uuid>
+  <forward mode='nat'/>
+  <bridge name='virbr0' stp='on' delay='0'/>
+  <mac address='52:54:00:49:05:af'/>
+  <ip address='192.168.122.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.122.2' end='192.168.122.254'/>
+      <host mac='52:54:00:ab:01:30' name='ichi-workstation' ip='192.168.122.30'/>
+      <host mac='52:54:00:ab:01:31' name='ichi-ichi-master' ip='192.168.122.31'/>
+      <host mac='52:54:00:ab:01:32' name='ichi-ichi-infra-node' ip='192.168.122.32'/>
+      <host mac='52:54:00:ab:01:33' name='ichi-ichi-node' ip='192.168.122.33'/>
+
+      <host mac='52:54:00:ab:05:10' name='go-workstation' ip='192.168.122.150'/>
+      <host mac='52:54:00:ab:05:11' name='go-ichi-master' ip='192.168.122.151'/>
+      <host mac='52:54:00:ab:05:12' name='go-ichi-infra-node' ip='192.168.122.152'/>
+      <host mac='52:54:00:ab:05:13' name='go-ichi-node' ip='192.168.122.153'/>
+
+      <host mac='52:54:00:ab:06:10' name='roku-workstation' ip='192.168.122.160'/>
+      <host mac='52:54:00:ab:06:11' name='roku-ichi-master' ip='192.168.122.161'/>
+      <host mac='52:54:00:ab:06:12' name='roku-ichi-infra-node' ip='192.168.122.162'/>
+      <host mac='52:54:00:ab:06:13' name='roku-ichi-node' ip='192.168.122.163'/>
+
+      <host mac='52:54:00:ab:07:10' name='shichi-ichi-workstation' ip='192.168.122.10'/>
+      <host mac='52:54:00:ab:07:11' name='shichi-ichi-master' ip='192.168.122.11'/>
+      <host mac='52:54:00:ab:07:12' name='shichi-ichi-infra-node' ip='192.168.122.12'/>
+      <host mac='52:54:00:ab:07:13' name='shichi-ni-infra-node' ip='192.168.122.13'/>
+      <host mac='52:54:00:ab:07:14' name='shichi-san-infra-node' ip='192.168.122.14'/>
+      <host mac='52:54:00:ab:07:15' name='shichi-ichi-node' ip='192.168.122.15'/>
+
+      <host mac='52:54:00:ab:11:40' name='kyuu-workstation' ip='192.168.122.40'/>
+      <host mac='52:54:00:ab:11:41' name='kyuu-ichi-master' ip='192.168.122.41'/>
+      <host mac='52:54:00:ab:11:42' name='kyuu-ichi-node' ip='192.168.122.42'/>
+
+      <host mac='52:54:00:ab:11:50' name='kyuuni-workstation' ip='192.168.122.50'/>
+      <host mac='52:54:00:ab:11:51' name='kyuuni-ichi-master' ip='192.168.122.51'/>
+      <host mac='52:54:00:ab:11:52' name='kyuuni-ichi-node' ip='192.168.122.52'/>
+
+      <host mac='52:54:00:ab:11:60' name='kyuusan-workstation' ip='192.168.122.60'/>
+      <host mac='52:54:00:ab:11:61' name='kyuusan-ichi-master' ip='192.168.122.61'/>
+      <host mac='52:54:00:ab:11:62' name='kyuusan-ichi-node' ip='192.168.122.62'/>
+
+      <host mac='52:54:00:ab:09:40' name='kyuuroku-workstation' ip='192.168.122.140'/>
+      <host mac='52:54:00:ab:09:41' name='kyuuroku-ichi-master' ip='192.168.122.141'/>
+      <host mac='52:54:00:ab:09:42' name='kyuuroku-ichi-node' ip='192.168.122.142'/>
+      <host mac='52:54:00:ab:09:43' name='kyuuroku-ni-node' ip='192.168.122.143'/>
+      <host mac='52:54:00:ab:09:44' name='kyuuroku-ichi-infra-node' ip='192.168.122.144'/>
+      <host mac='52:54:00:ab:09:45' name='kyuuroku-ni-infra-node' ip='192.168.122.145'/>
+      <host mac='52:54:00:ab:09:46' name='kyuuroku-san-infra-node' ip='192.168.122.146'/>
+
+      <host mac='52:54:00:ab:10:10' name='ju-workstation' ip='192.168.122.64'/>
+      <host mac='52:54:00:ab:10:11' name='ju-ichi-master' ip='192.168.122.65'/>
+      <host mac='52:54:00:ab:10:12' name='ju-ichi-node' ip='192.168.122.66'/>
+      <host mac='52:54:00:ab:10:13' name='ju-ni-node' ip='192.168.122.67'/>
+      <host mac='52:54:00:ab:10:14' name='ju-ichi-infra-node' ip='192.168.122.68'/>
+      <host mac='52:54:00:ab:10:15' name='ju-ni-infra-node' ip='192.168.122.69'/>
+      <host mac='52:54:00:ab:10:16' name='ju-san-infra-node' ip='192.168.122.70'/>
+
+      <host mac='52:54:00:ab:11:70' name='juichi-workstation' ip='192.168.122.70'/>
+      <host mac='52:54:00:ab:11:71' name='juichi-ichi-master' ip='192.168.122.71'/>
+      <host mac='52:54:00:ab:11:72' name='juichi-ichi-node' ip='192.168.122.72'/>
+      <host mac='52:54:00:ab:11:73' name='juichi-ni-node' ip='192.168.122.73'/>
+      <host mac='52:54:00:ab:11:74' name='juichi-ichi-infra-node' ip='192.168.122.74'/>
+      <host mac='52:54:00:ab:11:75' name='juichi-ni-infra-node' ip='192.168.122.75'/>
+
+      <host mac='52:54:00:ab:11:d0' name='juichisan-workstation' ip='192.168.122.120'/>
+      <host mac='52:54:00:ab:11:d1' name='juichisan-ichi-master' ip='192.168.122.121'/>
+      <host mac='52:54:00:ab:11:d2' name='juichisan-ichi-node' ip='192.168.122.122'/>
+      <host mac='52:54:00:ab:11:d3' name='juichisan-ni-node' ip='192.168.122.123'/>
+      <host mac='52:54:00:ab:11:d4' name='juichisan-ichi-infra-node' ip='192.168.122.124'/>
+      <host mac='52:54:00:ab:11:d5' name='juichisan-ni-infra-node' ip='192.168.122.125'/>
+      <host mac='52:54:00:ab:11:d6' name='juichisan-san-infra-node' ip='192.168.122.126'/>
+
+      <host mac='52:54:00:03:11:40' name='juichiroku-workstation' ip='192.168.122.130'/>
+      <host mac='52:54:00:03:11:41' name='juichiroku-ichi-master' ip='192.168.122.131'/>
+      <host mac='52:54:00:03:11:42' name='juichiroku-ni-master' ip='192.168.122.132'/>
+      <host mac='52:54:00:03:11:43' name='juichiroku-san-master' ip='192.168.122.133'/>
+      <host mac='52:54:00:03:11:44' name='juichiroku-ichi-node' ip='192.168.122.134'/>
+      <host mac='52:54:00:03:11:45' name='juichiroku-ni-node' ip='192.168.122.135'/>
+      <host mac='52:54:00:03:11:46' name='juichiroku-ichi-infra-node' ip='192.168.122.136'/>
+      <host mac='52:54:00:03:11:47' name='juichiroku-ni-infra-node' ip='192.168.122.137'/>
+
+      <host mac='52:54:00:ab:11:c1' name='juichigo-workstation' ip='192.168.122.170'/>
+      <host mac='52:54:00:ab:11:c2' name='juichigo-ichi-master' ip='192.168.122.171'/>
+      <host mac='52:54:00:ab:11:c3' name='juichigo-ichi-node' ip='192.168.122.172'/>
+      <host mac='52:54:00:ab:11:c4' name='juichigo-ni-node' ip='192.168.122.143'/>
+      <host mac='52:54:00:ab:11:c5' name='juichigo-ichi-infra-node' ip='192.168.122.174'/>
+      <host mac='52:54:00:ab:11:c6' name='juichigo-ni-infra-node' ip='192.168.122.175'/>
+
+      <host mac='52:54:00:ab:11:90' name='che-workstation' ip='192.168.122.90'/>
+      <host mac='52:54:00:ab:11:91' name='che-ichi-master' ip='192.168.122.91'/>
+      <host mac='52:54:00:ab:11:92' name='che-ichi-node' ip='192.168.122.92'/>
+      <host mac='52:54:00:ab:11:93' name='che-ichi-infra-node' ip='192.168.122.93'/>
+
+      <host mac='52:54:00:ab:11:80' name='workstation' ip='192.168.122.80'/>
+      <host mac='52:54:00:ab:11:81' name='master' ip='192.168.122.81'/>
+      <host mac='52:54:00:ab:11:82' name='node1' ip='192.168.122.82'/>
+      <host mac='52:54:00:ab:11:83' name='node2' ip='192.168.122.83'/>
+
+      <host mac='52:54:00:ab:11:a1' name='gluster-a' ip='192.168.122.101'/>
+      <host mac='52:54:00:ab:11:a2' name='gluster-b' ip='192.168.122.102'/>
+      <host mac='52:54:00:ab:11:a3' name='gluster-c' ip='192.168.122.103'/>
+
+      <host mac='52:54:00:ab:11:b1' name='elasticsearch-a' ip='192.168.122.111'/>
+      <host mac='52:54:00:ab:11:b2' name='elasticsearch-b' ip='192.168.122.112'/>
+      <host mac='52:54:00:ab:11:b3' name='elasticsearch-c' ip='192.168.122.113'/>
+      <host mac='52:54:00:ab:11:b4' name='elasticsearch-d' ip='192.168.122.114'/>
+      <host mac='52:54:00:ab:11:b5' name='elasticsearch-e' ip='192.168.122.115'/>
+    </dhcp>
+  </ip>
+</network>

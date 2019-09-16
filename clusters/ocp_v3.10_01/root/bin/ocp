@@ -1,0 +1,23 @@
+#!/bin/bash -
+
+subscription-manager refresh
+subscription-manager list --available >> /root/list.txt
+subscription-manager attach --pool=__POOLID__
+subscription-manager repos --disable="*"
+
+yum-config-manager --disable *
+
+subscription-manager repos --enable="rhel-7-server-rpms" \
+  --enable="rhel-7-server-extras-rpms" \
+  --enable="rhel-7-server-ose-3.10-rpms" \
+  --enable="rhel-7-server-ansible-2.6-rpms"
+
+yum install -y wget git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct
+yum update -y
+
+yum install -y openshift-ansible
+yum install -y docker
+
+systemctl enable docker
+systemctl start docker
+systemctl is-active docker

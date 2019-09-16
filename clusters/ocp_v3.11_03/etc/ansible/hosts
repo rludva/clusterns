@@ -1,0 +1,133 @@
+# Create an OSEv3 group that contains the masters, nodes, and etcd groups
+[OSEv3:children]
+masters
+nodes
+etcd
+glusterfs
+
+# Set variables common for all OSEv3 hosts
+[OSEv3:vars]
+# SSH user, this user should allow ssh based auth without requiring a password
+ansible_ssh_user=root
+
+# If ansible_ssh_user is not root, ansible_become must be set to true
+ansible_become=true
+
+#
+openshift_release=v3.11
+openshift_deployment_type=openshift-enterprise
+
+#
+openshift_disable_check=disk_availability,docker_storage,memory_availability,docker_image_availability
+
+#
+oreg_url=registry.redhat.io/openshift3/ose-${component}:${version}
+oreg_auth_user="__OREG_AUTH_USER__"
+oreg_auth_password="__OREG_AUTH_PASSWORD__"
+
+openshift_examples_modify_imagestreams=true
+
+# uncomment the following to enable htpasswd authentication; defaults to DenyAllPasswordIdentityProvider
+#openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+openshift_master_htpasswd_users={'__OCP_USER1_LOGIN__':'__OCP_USER1_PASSWORD_HASH__','__OCP_USER2_LOGIN__':'__OCP_USER2_PASSWORD_HASH__','__OCP_USER3_LOGIN__':'__OCP_USER3_PASSWORD_HASH__'}
+
+#
+openshift_master_default_subdomain=apps.juichisan.local.nutius.com
+
+openshift_metrics_install_metrics=true
+openshift_logging_install_logging=true
+openshift_cluster_monitoring_operator_install=true
+
+openshift_metrics_duration=7
+
+#
+openshift_logging_kibana_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_hawkular_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_casandra_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_heapster_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_es_nodeselector={"node-role.kubernetes.io/infra": "true"}
+
+#########################
+## Prometheus Metrics
+##########################
+openshift_prometheus_namespace=openshift-metrics
+openshift_prometheus_node_selector={"node-role.kubernetes.io/infra":"true"}
+openshift_prometheus_alertmanager_memory_requests=300Mi
+openshift_prometheus_alertmanager_cpu_requests=200m
+openshift_prometheus_alertmanager_memory_limit=300Mi
+openshift_prometheus_alertmanager_cpu_limit=200m
+openshift_prometheus_alertbuffer_memory_requests=300Mi
+openshift_prometheus_alertbuffer_cpu_requests=200m
+openshift_prometheus_alertbuffer_memory_limit=300Mi
+openshift_prometheus_alertbuffer_cpu_limit=200m
+
+#######################
+## Grafana
+########################
+openshift_grafana_node_selector={"node-role.kubernetes.io/infra":"true"}
+
+########################
+## Cluster Logging
+#########################
+openshift_logging_kibana_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_curator_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_es_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_eventrouter_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_es_ops_nodeselector={"node-role.kubernetes.io/infra":"true"}
+
+#######################
+## GFS for logging
+########################
+openshift_logging_elasticsearch_storage_type=pvc
+openshift_logging_es_pvc_storage_class_name='glusterfs-registry-block'
+
+
+openshift_storage_glusterfs_namespace=app-storage
+openshift_storage_glusterfs_storageclass=true
+openshift_storage_glusterfs_storageclass_default=false
+openshift_storage_glusterfs_block_deploy=true
+openshift_storage_glusterfs_block_host_vol_size=100
+openshift_storage_glusterfs_block_storageclass=true
+openshift_storage_glusterfs_block_storageclass_default=false
+
+#
+openshift_storage_glusterfs_storageclass_default=True
+
+openshift_metrics_storage_kind=dynamic
+openshift_logging_storage_kind=dynamic
+openshift_metrics_storage_volume_size=5Gi
+openshift_metrics_cassandra_pvc_storage_class_name="glusterfs-registry-block" 
+
+openshift_logging_es_pvc_size=5Gi                        
+openshift_logging_elasticsearch_storage_type=pvc             
+openshift_logging_es_pvc_storage_class_name="glusterfs-registry-block"
+
+openshift_logging_es_cpu_limit=500m
+openshift_logging_es_memory_limit=1Gi
+
+openshift_master_dynamic_provisioning_enabled=True
+
+openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kubernetes.io/master=true,node-role.kubernetes.io/region=primary,node-role.kubernetes.io/domain=secure,node-role.kubernetes.io/environment=test-infra']}, {'name': 'node-config-infra', 'labels': ['node-role.kubernetes.io/infra=true,node-role.kubernetes.io/domain=secure,node-role.kubernetes.io/environment=test-infra,node-role.kubernetes.io/glusterfs=storage-host']}, {'name': 'node-config-compute', 'labels': ['node-role.kubernetes.io/compute=true,node-role.kubernetes.io/domain=secure,node-role.kubernetes.io/environment=test-infra']},}]
+
+# host group for masters
+[masters]
+juichisan-ichi-master.local.nutius.com
+
+# host group for etcd
+[etcd]
+juichisan-ichi-master.local.nutius.com
+
+# host group for nodes, includes region info
+[nodes]
+juichisan-ichi-master.local.nutius.com	openshift_node_group_name='node-config-master'
+juichisan-ichi-node.local.nutius.com	openshift_node_group_name='node-config-compute'
+juichisan-ni-node.local.nutius.com		openshift_node_group_name='node-config-compute'
+juichisan-ichi-infra-node.local.nutius.com	openshift_node_group_name='node-config-infra'
+juichisan-ni-infra-node.local.nutius.com	openshift_node_group_name='node-config-infra'
+juichisan-san-infra-node.local.nutius.com	openshift_node_group_name='node-config-infra'
+
+[glusterfs]
+juichisan-ichi-infra-node.local.nutius.com 	glusterfs_devices='["/dev/vdb", "/dev/vdc"]'
+juichisan-ni-infra-node.local.nutius.com   	glusterfs_devices='["/dev/vdb", "/dev/vdc"]'
+juichisan-san-infra-node.local.nutius.com  	glusterfs_devices='["/dev/vdb", "/dev/vdc"]'

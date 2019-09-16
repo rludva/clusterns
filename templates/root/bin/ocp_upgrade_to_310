@@ -1,0 +1,31 @@
+#!/bin/bash -
+
+subscription-manager refresh
+
+subscription-manager repos --disable="rhel-7-server-ose-3.9-rpms" \
+	--enable="rhel-7-server-ose-3.10-rpms" \
+	--enable="rhel-7-server-rpms" \
+	--enable="rhel-7-server-extras-rpms" \
+	--enable="rhel-7-server-ansible-2.4-rpms"
+
+yum clean all
+
+yum update -y openshift-ansible
+
+# ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/openshift-master/openshift_node_group.yml
+# ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/openshift-cluster/upgrades/v3_10/upgrade.yml
+
+# Upgrade 3.9 to 3.10
+#  Correct Inventory file:
+#  [nodes]
+#  kyuu-ichi-master.example.com openshift_node_group_name='node-config-master'
+#  kyuu-ichi-node.example.com  s openshift_node_labels="{'region':'infra', 'node-role.kubernetes.io/compu
+#
+#  Run this playbook:
+#  /usr/share/ansible/openshift-ansible/playbooks/openshift-master/openshift_node_group.yml
+#
+#  Change in the inventory file: openshift_release=v3.10 
+#  Previous value was v3.9
+#
+#  Process the upgrade
+#  ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/openshift-cluster/upgrades/v3_10/upgrade.yml

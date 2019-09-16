@@ -1,0 +1,13 @@
+
+#
+# /etc/fstab
+# Created by anaconda on Sun Dec  9 16:08:25 2018
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk'
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+/dev/mapper/rhel_che--ichi--master-root /                       			xfs     defaults        0 0
+UUID=792fffca-29bb-4cc3-a732-464e9a010f07 /boot                   			xfs     defaults        0 0
+#/dev/mapper/rhel_che--ichi--master-swap swap                  			  	swap    defaults        0 0
+192.168.122.1:/var/pv/postgresql		/mnt/postgresql				nfs	rw		0 0
+192.168.122.1:/var/pv/claim-che-workspace	/mnt/claim-che-workspace		nfs	rw		0 0

@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gluster-heketi
+provisioner: kubernetes.io/glusterfs
+parameters:
+  endpoint: "storage-endpoints"
+  resturl: "http://127.0.0.1:8081"
+  restuser: "admin"
+  restuserkey: "Any Secret Key Value"

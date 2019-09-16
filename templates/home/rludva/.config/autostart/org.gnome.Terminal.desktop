@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Terminal
+Comment=GNOME Terminal
+Keywords=shell;prompt;command;commandline;cmd;
+TryExec=gnome-terminal
+Exec=/usr/bin/gnome-terminal
+StartupNotify=true
+Type=Application
+Hidden=false
+X-GNOME-Autostart-enabled=true

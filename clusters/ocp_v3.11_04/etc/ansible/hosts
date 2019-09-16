@@ -1,0 +1,130 @@
+# Create an OSEv3 group that contains the masters, nodes, and etcd groups
+[OSEv3:children]
+masters
+nodes
+etcd
+glusterfs
+
+# Set variables common for all OSEv3 hosts
+[OSEv3:vars]
+# SSH user, this user should allow ssh based auth without requiring a password
+ansible_ssh_user=root
+
+# If ansible_ssh_user is not root, ansible_become must be set to true
+ansible_become=true
+
+#
+openshift_release=v3.11
+openshift_deployment_type=openshift-enterprise
+
+#
+openshift_disable_check=disk_availability,docker_storage,memory_availability,docker_image_availability
+
+#
+oreg_url=registry.redhat.io/openshift3/ose-${component}:${version}
+oreg_auth_user="1979710|4Xd6jDny"
+oreg_auth_password="eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiI1NTBiYWI1NjhmMTI0YjIxYTdmMDU1YzI3MmQzNDQ1YyJ9.k1weeVGc0M0EkUr6TG-usvXa16pRkjDnjpFOfGS4qpdpN2WgEnzBIP9dM-MsUe-qn3CRDKVtpD1e4ZUgJ276lfO1nQtDjeHI_mRSSncst5e8vL6C3pOHobGPLh_sSx8VO9QuvEgnPsVLY-7rVIHinxlTtSZUV9K34WHfkMgR9fgRKyQ_ED0_3V2T3tXlSP8d4mQZWRIep5RoIf4CQ9vXNBcPbrdJOVyXzeOIyWgRAaWIxY6RN0BoF8EMU3vfwGkJUjDbbRk56h2419zV-hFRAoIvc6g1T2CnyvpT8MEMBNS4LpetXdGnOyQdnE0s7SZJ6yIHH4ChHGHkPtbumgVj0XrvbXs70THljgHXmbfDj7cbc7T0GVHIYI97lfdvkDLP6WL5COduyvHLXX5LoPCLYacAESUVLV7G-fIfhxxtT28zg4L9D-ee1J4zw5W7nujBLhHjqJc5vSUeHbBzZXDsLo7gygnTASO88gYHP3Wf239vKG-JTsjf5IcPRh7ltD5opb853RjcbW3N3DXVzT3jcEOltxLP50d7EJDPlZQfCel8CI2NfVENJvz5Yv75M7aCI2FCN2L8VfVYmy33JCFxc9SmKNrplmFP2bnAUsygUCJO8bJEX99qcO5Np1g5D8gtUETI-NuGygcOcAfRLq3-G7xPu2IpJs_g-NRj7ei9mKI"
+
+openshift_examples_modify_imagestreams=true
+
+# uncomment the following to enable htpasswd authentication; defaults to DenyAllPasswordIdentityProvider
+#openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+openshift_master_htpasswd_users={'admin':'$apr1$9oIXS0pw$7QdkePTJOjyieeyc3Gcqx/','developer':'$apr1$y1HRKvvD$FvwXqbNq1rZtAj6TXfHXJ0','rludva':'$apr1$JUfap3xO$XjS.dvLedKzYDNGMOtkGw1'}
+
+#
+openshift_master_default_subdomain=juichiroku-ichi-apps.example.com
+
+openshift_metrics_install_metrics=true
+openshift_logging_install_logging=true
+openshift_cluster_monitoring_operator_install=true
+
+openshift_metrics_duration=7
+
+#
+openshift_logging_kibana_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_hawkular_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_casandra_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_heapster_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_es_nodeselector={"node-role.kubernetes.io/infra": "true"}
+
+#########################
+## Prometheus Metrics
+##########################
+openshift_prometheus_namespace=openshift-metrics
+openshift_prometheus_node_selector={"node-role.kubernetes.io/infra":"true"}
+openshift_prometheus_alertmanager_memory_requests=300Mi
+openshift_prometheus_alertmanager_cpu_requests=200m
+openshift_prometheus_alertmanager_memory_limit=300Mi
+openshift_prometheus_alertmanager_cpu_limit=200m
+openshift_prometheus_alertbuffer_memory_requests=300Mi
+openshift_prometheus_alertbuffer_cpu_requests=200m
+openshift_prometheus_alertbuffer_memory_limit=300Mi
+openshift_prometheus_alertbuffer_cpu_limit=200m
+
+#######################
+## Grafana
+########################
+openshift_grafana_node_selector={"node-role.kubernetes.io/infra":"true"}
+
+########################
+## Cluster Logging
+#########################
+openshift_logging_kibana_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_curator_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_es_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_eventrouter_nodeselector={"node-role.kubernetes.io/infra": "true"}
+openshift_logging_es_ops_nodeselector={"node-role.kubernetes.io/infra":"true"}
+
+#######################
+## GFS for logging
+########################
+openshift_logging_elasticsearch_storage_type=pvc
+openshift_logging_es_pvc_storage_class_name='glusterfs-registry-block'
+
+
+openshift_storage_glusterfs_namespace=app-storage
+openshift_storage_glusterfs_storageclass=true
+openshift_storage_glusterfs_storageclass_default=false
+openshift_storage_glusterfs_block_deploy=true
+openshift_storage_glusterfs_block_host_vol_size=100
+openshift_storage_glusterfs_block_storageclass=true
+openshift_storage_glusterfs_block_storageclass_default=false
+
+#
+openshift_storage_glusterfs_storageclass_default=True
+
+openshift_metrics_storage_kind=dynamic
+openshift_logging_storage_kind=dynamic
+openshift_metrics_storage_volume_size=5Gi
+openshift_metrics_cassandra_pvc_storage_class_name="glusterfs-registry-block" 
+
+openshift_logging_es_pvc_size=5Gi                        
+openshift_logging_elasticsearch_storage_type=pvc             
+openshift_logging_es_pvc_storage_class_name="glusterfs-registry-block"
+
+openshift_logging_es_cpu_limit=500m
+openshift_logging_es_memory_limit=1Gi
+
+openshift_master_dynamic_provisioning_enabled=True
+# host group for masters
+[masters]
+juichiroku-ichi-master.example.com
+juichiroku-ni-master.example.com
+juichiroku-san-master.example.com
+
+# host group for etcd
+[etcd]
+juichiroku-ichi-master.example.com
+juichiroku-ni-master.example.com
+juichiroku-san-master.example.com
+
+# host group for nodes, includes region info
+[nodes]
+juichiroku-ichi-master.example.com		openshift_node_group_name='node-config-master'
+juichiroku-ni-master.example.com		openshift_node_group_name='node-config-master'
+juichiroku-san-master.example.com		openshift_node_group_name='node-config-master'
+juichiroku-ichi-node.example.com		openshift_node_group_name='node-config-compute'
+juichiroku-ni-node.example.com			openshift_node_group_name='node-config-compute'
+juichiroku-ichi-infra-node.example.com		openshift_node_group_name='node-config-infra'
+juichiroku-ni-infra-node.example.com		openshift_node_group_name='node-config-infra'

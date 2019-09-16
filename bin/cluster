@@ -1,0 +1,385 @@
+#!/usr/bin/bash
+
+#
+CLUSTER_NAME="$1"
+COMMAND_NAME="$2"
+
+# Basic color values..
+red=`tput setaf 1`
+green=`tput setaf 2`
+reset=`tput sgr0`
+
+#
+if [ -z "$CLUSTER_NAME" ]; then
+  if [ -e "$HOME/.active_cluster" ]; then
+    CLUSTER_NAME=`cat $HOME/.active_cluster`
+    COMMAND_NAME="show-active-cluster"
+  fi
+  if [ ! -e "$HOME/.active_cluster" ]; then
+    echo "Use cluster <cluster-name> <command>"
+    echo
+    exit
+  fi
+fi
+
+#
+DIRECTORY="/var/git/github.com/rludva/clusterns"
+CLUSTER_INFO_FILE="$DIRECTORY/clusters.csv"
+if [ ! -e "$CLUSTER_INFO_FILE" ]; then
+  echo "${yellow}CLUSTER_INFO_FILE=$CLUSTER_INFO_FILE${reset} ${red}not exists${reset}"
+  echo "Use init.sh script to prepare it.."
+  exit
+fi
+
+# If the first argument is not known cluster name, then it's a command..
+lines=`grep ";$CLUSTER_NAME;" $CLUSTER_INFO_FILE | wc -l`
+if [ $lines -eq 0 ]; then
+  if [ -e "$HOME/.active_cluster" ]; then
+    COMMAND_NAME="$CLUSTER_NAME"
+    CLUSTER_NAME=`cat $HOME/.active_cluster`
+  fi
+fi
+
+#
+lines=`grep ";$CLUSTER_NAME;" $CLUSTER_INFO_FILE | wc -l`
+if [ $lines -eq 0 ]; then
+  echo "Cluster name: $CLUSTER_NAME"
+  echo "Cluster nodes not found.."
+fi
+
+function command_create_cluster {
+  bash $DIRECTORY/clusters/$1/setup.sh
+  exit
+}
+
+#
+function cluster_command {
+  echo "ssh $machine_url \"$1\"" >> $CLUSTER_SCRIPT
+}
+
+#
+echo $CLUSTER_NAME > "$HOME/.active_cluster"
+#echo "cn = $CLUSTER_NAME"
+#echo "cmd = $COMMAND_NAME"
+
+function command_on {
+  sudo virsh start $machine
+  # ether-wake -i $INTERFACE $MAC_ADDRESS
+}
+
+function command_off {
+  sudo virsh shutdown $machine
+  # echo $machine
+  # ssh $machine.local.nutius.com 'sudo init 0'
+}
+
+function command_ping {
+    ping -c1 $machine_url 2> /dev/null 1>/dev/null;
+    if [ "$?" = 0 ]; then
+      echo $machine_url ... ${green}OK${reset}
+    else
+      echo $machine_url ... ${red}NOT OK${reset}
+    fi
+    sleep 0.120
+}
+
+function command_not_found {
+  echo "Command not found.."
+}
+
+function command_show-active-cluster {
+  if [ ! -e "$HOME/.active_cluster" ]; then
+    echo "No active cluster found at $HOME/.active_cluster"
+    echo
+    exit
+  fi
+
+  cat $HOME/.active_cluster
+
+  # This is one record command (no for all cluster machines, so exit now..)
+  exit
+}
+
+function command_id {
+  KNOWN_HOSTS=$HOME/.ssh/known_hosts
+  PUBLIC_KEY=$HOME/.ssh/id_rsa.pub
+
+  if [ -z "$SSHPASS" ]; then
+    echo "Store passwd to SSHPASS environemnt variable.."
+    echo
+    exit
+  fi
+
+  sed -i -e "/$machine/d" $KNOWN_HOSTS
+  ssh-keyscan -4 -t rsa $machine_url >> $KNOWN_HOSTS
+  sshpass -e ssh-copy-id -i $PUBLIC_KEY $machine_url
+  sshpass -e ssh-copy-id -i $PUBLIC_KEY root@$machine_url
+}
+
+function command_root-id {
+  KNOWN_HOSTS=/root/.ssh/known_hosts
+  PUBLIC_KEY=/root/.ssh/id_rsa.pub
+
+  if [ "$EUID" -ne 0 ]; then
+    echo "To manipulate with $KNOWN_HOSTS you have to be root.."
+    echo
+    exit
+  fi
+
+  if [ -z "$SSHPASS" ]; then
+    echo "Store passwd to SSHPASS environemnt variable.."
+    echo
+    exit
+  fi
+
+  sed -i -e "/$machine/d" $KNOWN_HOSTS
+  ssh-keyscan -4 -t rsa $machine_url >> $KNOWN_HOSTS
+  sshpass -e ssh-copy-id -i $PUBLIC_KEY $machine_url
+}
+
+function command_unregister {
+  cluster_command "sudo subscription-manager remove --all"
+  cluster_command "sudo subscription-manager unregister"
+}
+
+command_info-url() {
+  echo $machine_url
+}
+
+command_info-mac() {
+  echo $machine_mac
+}
+
+command_info-ip() {
+  echo $machine_ip
+}
+
+command_machines() {
+  echo "$machine; $machine_url; $machine_mac"
+}
+
+LAST_CLUSTER=""
+function command_ls {
+ CLUSTER="$1"
+ if [ "$CLUSTER" = "$LAST_CLUSTER" ]; then
+ 	return
+ fi
+ LAST_CLUSTER="$CLUSTER"
+
+ echo "\"$CLUSTER\""
+}
+
+function command_ls-machine {
+  echo -n "$next$machine"
+  next=" "
+}
+
+function command_save_snapshot {
+  echo "saving snapshot of $machine.."
+  sudo virsh snapshot-create-as $machine \
+    --name "snapshot" \
+    --description "Snapshot cluster.."
+}
+
+function command_restore_snapshot {
+  echo "restoring snapshot of $machine.."
+  sudo virsh snapshot-revert $machine snapshot1
+}
+
+function ssh-node {
+  node_name="$1"
+
+  # This piece of code is just magic. And only those who were trying to process the same problem can understand.
+  # Sorry, it's not that I can't explain it, it's just that you wouldn't understand. And I am pretty sure, 
+  # that after a week I will not understand also. The commands are just empty words if you didn't meet the behavior 
+  # in the background. So what is the behavior we need? It is very simple: When you call this function from gnome-terminal 
+  # it executes a new gnome-terminal window and it is very noisy to have the second window. But if we execute this code
+  # from a non-window script (for example with pressing an associated key from keyboard), then we still need to open 
+  # a gnome-terminal window. So we need it. That is the reason for the if statement!
+  if [ `cat /proc/$PPID/comm` = "bash" ]; then 
+    echo "Connecting to $node_name"
+    ssh -t -l root $node_name < /dev/tty
+    exit
+  fi
+
+  gnome-terminal -q -- bash -c "ssh -t -l root $node_name < /dev/tty"
+  exit
+}
+
+function command_console {
+  google-chrome "https://$cluster_alias-ichi-master.local.nutius.com:8443/console" &
+  exit
+}
+
+function command_ssh-workstation {
+	ssh-node "$cluster_alias-workstation.local.nutius.com"
+}
+function command_ssh-ichi-master {
+	ssh-node "$cluster_alias-ichi-master.local.nutius.com"
+}
+function command_ssh-ni-master {
+	ssh-node "$cluster_alias-ni-master.local.nutius.com"
+}
+function command_ssh-san-master {
+	ssh-node "$cluster_alias-san-master.local.nutius.com"
+}
+function command_ssh-ichi-infra-node {
+	ssh-node "$cluster_alias-ichi-infra-node.local.nutius.com"
+}
+function command_ssh-ni-infra-node {
+	ssh-node "$cluster_alias-ni-infra-node.local.nutius.com"
+}
+function command_ssh-san-infra-node {
+	ssh-node "$cluster_alias-san-infra-node.local.nutius.com"
+}
+function command_ssh-ichi-node {
+	ssh-node "$cluster_alias-ichi-node.local.nutius.com"
+}
+function command_ssh-ni-node {
+	ssh-node "$cluster_alias-ni-node.local.nutius.com"
+}
+function command_ssh-san-node {
+	ssh-node "$cluster_alias-san-node.local.nutius.com"
+}
+
+# Prepare cluster script..
+CLUSTER_SCRIPT="/tmp/cluster_script.sh"
+truncate -s 0 $CLUSTER_SCRIPT
+chmod +x $CLUSTER_SCRIPT
+
+# Global items commands..
+if [ -e "/tmp/global_var" ]; then
+  rm "/tmp/global_var"
+fi
+IFS=\;
+cat $CLUSTER_INFO_FILE | while read -r col0 col1 col2 col3 col4 col5 col6
+do
+  cluster="$col1"
+  cluster_alias="$col2"
+  machine="$col3"
+  machine_url="$col4"
+  machine_mac="$col5"
+  machine_ip="$col6"
+
+  case "$COMMAND_NAME" in
+  "ls")
+    command_ls "$cluster_alias"
+    touch "/tmp/global_var"
+  ;;
+  esac
+done
+
+if [ -e "/tmp/global_var" ]; then
+  echo "global command"
+  rm "/tmp/global_var"
+  exit
+fi
+
+
+IFS=\;
+grep ";$CLUSTER_NAME;" $CLUSTER_INFO_FILE | while read -r col0 col1 col2 col3 col4 col5 col6
+do
+  cluster="$col1"
+  cluster_alias="$col2"
+  machine="$col3"
+  machine_url="$col4"
+  machine_mac="$col5"
+  machine_ip="$col6"
+
+  case "$COMMAND_NAME" in
+  "create-cluster")
+    command_create_cluster "$cluster"
+  ;;
+  "ssh-workstation")
+    command_ssh-workstation
+  ;;
+  "ssh-ichi-master")
+    command_ssh-ichi-master
+  ;;
+  "ssh-ni-master")
+    command_ssh-ni-master
+  ;;
+  "ssh-san-master")
+    command_ssh-san-master
+  ;;
+  "ssh-ichi-infra-node")
+    command_ssh-ichi-infra-node
+  ;;
+  "ssh-ichi-node")
+    command_ssh-ichi-node
+  ;;
+  "ssh-ni-infra-node")
+    command_ssh-ni-infra-node
+  ;;
+  "ssh-ni-node")
+    command_ssh-ni-node
+  ;;
+  "ssh-san-infra-node")
+    command_ssh-san-infra-node
+  ;;
+  "ssh-san-node")
+    command_ssh-san-node
+  ;;
+  "console")
+    command_console
+  ;;
+  "show-active-cluster")
+    command_show-active-cluster
+  ;;
+  "info-url")
+    command_info-url
+  ;;
+  "info-mac")
+    command_info-mac
+  ;;
+  "info-ip")
+    command_info-ip
+  ;;
+  "machines")
+    command_machines
+  ;;
+  "ls-machine")
+    command_ls-machine
+  ;;
+  "on")
+    command_on
+  ;;
+  "off")
+    command_off
+  ;;
+  "ping")
+    command_ping
+  ;;
+  "delete")
+    sudo virsh undefine $machine
+  ;;
+  "id")
+    command_id
+  ;;
+  "root-id")
+    command_root-id
+  ;;
+  "unregister")
+    command_unregister
+  ;;
+  "save-snapshot")
+    command_save_snapshot
+  ;;
+  "restore-snapshot")
+    command_restore_snapshot
+  ;;
+  *)
+    command_not_found
+  ;;
+  esac
+done
+
+# If cluster script is not empty, then execute cluster script..
+if [ -s $CLUSTER_SCRIPT ]; then
+  $CLUSTER_SCRIPT
+fi
+
+
+echo
+# Format:
+# ;$CLUSTER_NAME;$CLUSTER_ALIAS;$machine;$machine.$CVM_DOMAIN

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: claim-che-workspace
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    path: /var/pv/claim-che-workspace
+    server: 192.168.122.1
+  persistentVolumeReclaimPolicy: Recycle

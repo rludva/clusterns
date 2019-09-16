@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gluster-volume
+  annotations:
+    pv.beta.kubernetes.io/git: "590"
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  glusterfs:
+    endpoints: glusterfs-cluster
+    path: vol
+    readOnly: false
+  persistenVolumeReclaimPolicy: Retain

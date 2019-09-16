@@ -1,0 +1,131 @@
+$ORIGIN .
+$TTL 1; 1 seconds (for testing only)
+example.com               IN SOA  ns1.example.com. hostmaster.example.com. (
+                                2011112904 ; serial
+                                60         ; refresh (1 minute)
+                                15         ; retry (15 seconds)
+                                1800       ; expire (30 minutes)
+                                10         ; minimum (10 seconds)
+                                )
+                        NS      ns1.example.com.
+                        MX      10 mail.example.com.
+$ORIGIN example.com.
+ns1                     A       127.0.0.1
+
+mail.example.com.			300 IN A	192.168.122.1
+
+server					300 IN A	192.168.0.64
+server.example.com.			300 IN A	192.168.0.64
+orenji					300 IN A	192.168.0.64
+orenji.example.com.			300 IN A	192.168.0.244
+
+*.ichi-apps.example.com.		300 IN A	192.168.122.32
+ichi-workstation.example.com.		300 IN A	192.168.122.30
+ichi-ichi-master.example.com.		300 IN A	192.168.122.31
+ichi-ichi-infra-node.example.com.	300 IN A	192.168.122.32
+ichi-ichi-node.example.com.		300 IN A	192.168.122.33
+
+*.go-apps.example.com.			300 IN A	192.168.122.152
+go-workstation.example.com.		300 IN A	192.168.122.150
+go-ichi-master.example.com.		300 IN A	192.168.122.151
+go-ichi-infra-node.example.com.		300 IN A	192.168.122.152
+go-ichi-node.example.com.		300 IN A	192.168.122.153
+
+*.roku-apps.example.com.		300 IN A	192.168.122.162
+roku-workstation.example.com.		300 IN A	192.168.122.160
+roku-ichi-master.example.com.		300 IN A	192.168.122.161
+roku-ichi-infra-node.example.com.	300 IN A	192.168.122.162
+roku-ichi-node.example.com.		300 IN A	192.168.122.163
+
+*.shichi-apps.example.com.		300 IN A	192.168.122.12
+shichi-workstation.example.com.		300 IN A	192.168.122.10
+shichi-ichi-master.example.com.		300 IN A	192.168.122.11
+shichi-ichi-infra-node.example.com.	300 IN A	192.168.122.12
+shichi-ichi-node.example.com.		300 IN A	192.168.122.13
+
+*.shichini-apps.example.com.		300 IN A	192.168.122.22
+shichini-workstation.example.com.	300 IN A	192.168.122.20
+shichini-master.example.com.		300 IN A	192.168.122.21
+shichini-infra-node.example.com.	300 IN A	192.168.122.22
+shichini-node.example.com.		300 IN A	192.168.122.23
+
+*.kyuu-apps.example.com.		300 IN A	192.168.122.41
+kyuu-workstation.example.com.		300 IN A	192.168.122.40
+kyuu-ichi-master.example.com.		300 IN A	192.168.122.41
+kyuu-ichi-node.example.com.		300 IN A	192.168.122.42
+
+*.kyuuni-apps.example.com.		300 IN A	192.168.122.52
+kyuuni-workstation.example.com.		300 IN A	192.168.122.50
+kyuuni-ichi-master.example.com.		300 IN A	192.168.122.51
+kyuuni-ichi-node.example.com.		300 IN A	192.168.122.52
+
+*.kyuusan-apps.example.com.		300 IN A	192.168.122.62
+kyuusan-workstation.example.com.	300 IN A	192.168.122.60
+kyuusan-ichi-master.example.com.	300 IN A	192.168.122.61
+kyuusan-ichi-node.example.com.		300 IN A	192.168.122.62
+
+*.kyuuroku-apps.example.com.		300 IN A	192.168.122.142
+kyuuroku-workstation.example.com.	300 IN A	192.168.122.140
+kyuuroku-ichi-master.example.com.	300 IN A	192.168.122.141
+kyuuroku-ichi-node.example.com.		300 IN A	192.168.122.142
+kyuuroku-ni-node.example.com.		300 IN A	192.168.122.143
+kyuuroku-ichi-infra-node.example.com.	300 IN A	192.168.122.144
+kyuuroku-ni-infra-node.example.com.	300 IN A	192.168.122.145
+kyuuroku-san-infra-node.example.com.	300 IN A	192.168.122.146
+
+*.ju-apps.example.com.			300 IN A	192.168.122.66
+ju-workstation.example.com.		300 IN A	192.168.122.64
+ju-ichi-master.example.com.		300 IN A	192.168.122.65
+ju-ichi-node.example.com.		300 IN A	192.168.122.66
+ju-ni-node.example.com.			300 IN A	192.168.122.67
+ju-ichi-infra-node.example.com.		300 IN A	192.168.122.68
+ju-ni-infra-node.example.com.		300 IN A	192.168.122.69
+
+*.juichi-apps.example.com.		300 IN A	192.168.122.73
+juichi-workstation.example.com.		300 IN A	192.168.122.70
+juichi-ichi-master.example.com.		300 IN A	192.168.122.71
+juichi-ichi-node.example.com.		300 IN A	192.168.122.72
+juichi-ni-node.example.com.		300 IN A	192.168.122.73
+juichi-ichi-infra-node.example.com.	300 IN A	192.168.122.74
+juichi-ni-infra-node.example.com.	300 IN A	192.168.122.75
+
+*.jusansan-apps.example.com.		300 IN A	192.168.122.122
+jusan-workstation.example.com.		300 IN A	192.168.122.120
+jusan-ichi-master.example.com.		300 IN A	192.168.122.121
+jusan-ichi-node.example.com.		300 IN A	192.168.122.122
+jusan-ni-node.example.com.		300 IN A	192.168.122.123
+jusan-ichi-infra-node.example.com.	300 IN A	192.168.122.124
+jusan-ni-infra-node.example.com.	300 IN A	192.168.122.125
+jusan-san-infra-node.example.com.	300 IN A	192.168.122.126
+
+*.juichiroku-apps.example.com.		300 IN A	192.168.122.134
+juichiroku-workstation.example.com.	300 IN A	192.168.122.130
+juichiroku-ichi-master.example.com.	300 IN A	192.168.122.131
+juichiroku-ni-master.example.com.	300 IN A	192.168.122.132
+juichiroku-san-master.example.com.	300 IN A	192.168.122.133
+juichiroku-ichi-node.example.com.	300 IN A	192.168.122.134
+juichiroku-ni-node.example.com.		300 IN A	192.168.122.135
+juichiroku-ichi-infra-node.example.com.	300 IN A	192.168.122.136
+juichiroku-ni-infra-node.example.com.	300 IN A	192.168.122.137
+
+*.che-apps.example.com.			300 IN A	192.168.122.93
+che-workstation.example.com.		300 IN A	192.168.122.90
+che-ichi-master.example.com.		300 IN A	192.168.122.91
+che-ichi-node.example.com.		300 IN A	192.168.122.92
+che-ichi-infra-node.example.com.	300 IN A	192.168.122.93
+
+*.apps.example.com.			300 IN A	192.168.122.82
+workstation.example.com.		300 IN A	192.168.122.80
+master.example.com.			300 IN A	192.168.122.81
+node1.example.com.			300 IN A	192.168.122.82
+node2.example.com.			300 IN A	192.168.122.83
+
+gluster-a.example.com.			300 IN A	192.168.122.101
+gluster-b.example.com.			300 IN A	192.168.122.102
+gluster-c.example.com.			300 IN A	192.168.122.103
+
+elasticsearch-a.example.com.		300 IN A	192.168.122.111
+elasticsearch-b.example.com.		300 IN A	192.168.122.112
+elasticsearch-c.example.com.		300 IN A	192.168.122.113
+elasticsearch-d.example.com.		300 IN A	192.168.122.114
+elasticsearch-e.example.com.		300 IN A	192.168.122.115

@@ -1,0 +1,2 @@
+192.168.122.1:/var/pv/storage	/mnt/storage	nfs	rw 0 0
+192.168.122.1:/var/pv/database	/mnt/database	nfs	rw 0 0

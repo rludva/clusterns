@@ -1,0 +1,31 @@
+#!/bin/bash -
+
+subscription-manager refresh
+subscription-manager list --available >> /root/list.txt
+subscription-manager attach --pool=__POOLID__
+subscription-manager repos --disable="*"
+
+yum-config-manager --disable *
+
+subscription-manager repos --enable="rhel-7-server-rpms" \
+  --enable="rhel-7-server-extras-rpms" \
+  --enable="rhel-7-server-ose-3.7-rpms" \
+  --enable="rhel-7-fast-datapath-rpms"
+# not for ocp v3.7 mentioned in documentation.. =>  --enable="rhel-7-server-ansible-2.6-rpms"
+
+yum install -y wget git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct
+yum update -y
+
+yum install -y atomic-openshift-utils
+yum install -y atomic-openshift-excluder atomic-openshift-docker-excluder
+atomic-openshift-excluder unexclude
+
+yum install -y docker-1.12.6
+
+#systemctl enable docker
+#systemctl start docker
+#systemctl is-active docker
+
+# Install by hand..
+# atomic-openshift-installer install
+# systemctl restart atomic-openshift-master-api atomic-openshift-master-controllers

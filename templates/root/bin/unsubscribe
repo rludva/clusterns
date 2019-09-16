@@ -1,0 +1,4 @@
+# !/bin/bash -e
+
+sudo subscription-manager remove --all
+sudo subscription-manager unregister

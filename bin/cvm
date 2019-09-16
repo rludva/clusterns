@@ -1,0 +1,222 @@
+#!/bin/bash
+
+# Do not call this script separately..
+# It is used for by scripts for creating particular clusters..
+
+#
+if [ -z "$CVM_MACHINES" ]
+then
+	echo "Variable CVM_MACHINES is empty."
+	exit
+fi
+
+create_kickstart_file () {
+	MACHINE=$1
+	KS_FILE="/tmp/ks_$MACHINE.cfg"
+
+	#
+	cp $CVM_KS_FILE $KS_FILE
+
+	# Replace the kickstart post installation part on the kickstart file..
+	sed -i \
+	 -e "/__TEMPLATE_KS_POST__/r $CVM_KS_POST" \
+	 -e "/__TEMPLATE_KS_POST__/d" \
+	 $KS_FILE
+
+	# Get working directory of this script..
+	MY_PATH=`dirname "$0"`
+	MY_PATH=`( cd "$MY_PATH" && pwd )`/../..
+
+	# Escape $ and ` on scripts..
+	sed 's/\$/\\$/g' $MY_PATH/clusters/$CLUSTER_NAME/etc/ansible/hosts > /tmp/hosts
+	sed "s/\`/\\\\\`/g" $MY_PATH/templates/root/bin/es_health | sed "s/\\$/\\\\$/g" > /tmp/es_health.escaped
+	# sed "s/\`/\\\\\`/g" $MY_PATH/templates/root/bin/es_info | sed "s/\\$/\\\\$/g" > /tmp/es_info.escaped
+	sed 's/\x60/\\&/g;s/\$/\\$/g' $MY_PATH/templates/root/bin/es_info > /tmp/es_info.escaped
+
+	#
+	sed -i \
+	 -e "/__TEMPLATE_ROOT_BASHRC_LOCAL__/r $MY_PATH/templates/root/.bashrc_local" \
+	 -e "/__TEMPLATE_ROOT_BASHRC_LOCAL__/d" \
+	 \
+	 -e "/__TEMPLATE_RLUDVA_BASHRC_LOCAL__/r $MY_PATH/templates/home/rludva/.bashrc_local" \
+	 -e "/__TEMPLATE_RLUDVA_BASHRC_LOCAL__/d" \
+	 \
+	 -e "/__TEMPLATE_RLUDVA_VIMRC__/r $MY_PATH/templates/home/rludva/.vimrc" \
+	 -e "/__TEMPLATE_RLUDVA_VIMRC__/d" \
+	 \
+	 -e "/__TEMPLATE_ROOT_VIMRC__/r $MY_PATH/templates/root/.vimrc" \
+	 -e "/__TEMPLATE_ROOT_VIMRC__/d" \
+	 \
+	 -e "/__TEMPLATE_RLUDVA_CONFIG_AUTOSTART_TERMINAL__/r $MY_PATH/templates/home/rludva/.config/autostart/org.gnome.Terminal.desktop" \
+	 -e "/__TEMPLATE_RLUDVA_CONFIG_AUTOSTART_TERMINAL__/d" \
+	 \
+	 -e "/__TEMPLATE_ROOT_BIN_UNSUBSCRIBE__/r $MY_PATH/templates/root/bin/unsubscribe" \
+	 -e "/__TEMPLATE_ROOT_BIN_UNSUBSCRIBE__/d" \
+	 \
+	 -e "/__TEMPLATE_ROOT_BIN_SSH_STUFF__/r $MY_PATH/clusters/$CLUSTER_NAME/root/bin/ssh-stuff.sh" \
+	 -e "/__TEMPLATE_ROOT_BIN_SSH_STUFF__/d" \
+	 \
+	 -e "/__TEMPLATE_ROOT_BIN_ES_INFO__/r /tmp/es_info.escaped" \
+	 -e "/__TEMPLATE_ROOT_BIN_ES_INFO__/d" \
+	 \
+	 -e "/__TEMPLATE_ROOT_BIN_ES_HEALTH__/r /tmp/es_health.escaped" \
+	 -e "/__TEMPLATE_ROOT_BIN_ES_HEALTH__/d" \
+	 \
+	 -e "/__TEMPLATE_ROOT_BIN_OCP__/r $MY_PATH/clusters/$CLUSTER_NAME/root/bin/ocp" \
+	 -e "/__TEMPLATE_ROOT_BIN_OCP__/d" \
+	 \
+	 -e "/__TEMPLATE_ANSIBLE_INVENTORY__/r /tmp/hosts" \
+	 -e "/__TEMPLATE_ANSIBLE_INVENTORY__/d" \
+	 \
+	 -e "/__TEMPLATE_ROOT_BIN_OCP_UPGRADE_TO_310__/r $MY_PATH/templates/root/bin/ocp_upgrade_to_310" \
+	 -e "/__TEMPLATE_ROOT_BIN_OCP_UPGRADE_TO_310__/d" \
+	 \
+	 -e "/__TEMPLATE_ROOT_BIN_POST_INSTALL__/r $MY_PATH/templates/root/bin/post_install.sh" \
+	 -e "/__TEMPLATE_ROOT_BIN_POST_INSTALL__/d" \
+	 \
+	 -e "/__TEMPLATE_ROOT_BIN_INSTALL_MINISHIFT__/r $MY_PATH/templates/root/bin/install-minishift" \
+	 -e "/__TEMPLATE_ROOT_BIN_INSTALL_MINISHIFT__/d" \
+	 \
+	 -e "/__TEMPLATE_RLUDVA_GNOME_AUTOLOGIN__/r $MY_PATH/templates/etc/gdm/custom.conf" \
+	 -e "/__TEMPLATE_RLUDVA_GNOME_AUTOLOGIN__/d" \
+	 \
+	 -e "/__TEMPLATE_RLUDVA_AUTHORIZED_KEYS__/r $MY_PATH/templates/home/rludva/.ssh/authorized_keys" \
+	 -e "/__TEMPLATE_RLUDVA_AUTHORIZED_KEYS__/d" \
+	 \
+	 -e "/__TEMPLATE_ROOT_AUTHORIZED_KEYS__/r $MY_PATH/templates/root/.ssh/authorized_keys" \
+	 -e "/__TEMPLATE_ROOT_AUTHORIZED_KEYS__/d" \
+	 \
+	 -e "/__TEMPLATE_ANSIBLE_CONFIGURATION__/r $MY_PATH/templates/etc/ansible/ansible.cfg" \
+	 -e "/__TEMPLATE_ANSIBLE_CONFIGURATION__/d" \
+	 \
+	 $KS_FILE
+
+	# Add variables..
+	sed -i "s/__TEMPLATE_CLUSTER_NAME__/$CLUSTER_NAME/g" $KS_FILE
+	sed -i "s/__HOSTNAME__/$MACHINE.$CVM_DOMAIN/g" $KS_FILE
+	sed -i "s/__DOMAIN__/$CVM_DOMAIN/g" $KS_FILE
+	sed -i "s/__ORGANIZATION__/$CVM_ORGANIZATION/g" $KS_FILE
+	sed -i "s/__ACTIVATION_KEY__/$CVM_ACTIVATION_KEY/g" $KS_FILE
+	sed -i "s/__POOLID__/$POOLID/g" $KS_FILE
+	sed -i "s/__DEFAULT_SSHPASS__/$SSHPASS/g" $KS_FILE
+	sed -i "s/__OREG_AUTH_USER__/$OREG_AUTH_USER/g" $KS_FILE
+	sed -i "s/__OREG_AUTH_PASSWORD__/$OREG_AUTH_PASSWORD/g" $KS_FILE
+
+	# Prepare the OCP Inventory file..
+	declare -A users=( ["USER1"]="admin" ["USER2"]="developer" ["USER3"]="rludva" )
+	for item in "${!users[@]}"
+	do
+		sed -i "s/__OCP_${item}_LOGIN__/${users[$item]}/g" $KS_FILE
+	done
+
+	# HTTP Provider..
+	for user in 1 2 3
+	do
+		HASH_ESC=$(printf "%q" `openssl passwd -apr1 $PASSWORD` | sed 's/\//\\\//g' | sed 's/\$/\\\$/g')
+		sed -i -e "s/__OCP_USER${user}_PASSWORD_HASH__/$HASH_ESC/g" $KS_FILE
+ 	done
+}
+
+create_virtual_machine () {
+	MACHINE="$1"
+	MAC_ADDRESS="$2"
+
+	#
+	create_kickstart_file "$MACHINE"
+
+	#
+	CVM_MACHINE_VCPU="2"
+	CVM_MACHINE_RAM="8000"
+	CVM_MACHINE_OS_TYPE="linux"
+	CVM_MACHINE_OS_VARIANT="rhel7"
+	CVM_MACHINE_STORAGE_SIZE="40"
+	CVM_MACHINE_ISO="/var/lib/libvirt/images/iso/rhel.iso"
+
+	# Workstation..
+	if [[ $MACHINE == *"workstation"* ]]; then
+		CVM_MACHINE_VCPU=$CVM_WORKSTATION_MACHINE_VCPU
+		CVM_MACHINE_RAM=$CVM_WORKSTATION_MACHINE_RAM
+		CVM_MACHINE_OS_TYPE=$CVM_WORKSTATION_MACHINE_OS_TYPE
+		CVM_MACHINE_OS_VARIANT=$CVM_WORKSTATION_MACHINE_OS_VARIANT
+		CVM_MACHINE_STORAGE_SIZE=$CVM_WORKSTATION_MACHINE_STORAGE_SIZE
+		CVM_MACHINE_ISO=$CVM_WORKSTATION_MACHINE_ISO
+	fi
+
+	# Masters..
+	if [[ $MACHINE == *"master"* ]]; then
+		CVM_MACHINE_VCPU=$CVM_NODE_MACHINE_VCPU
+		CVM_MACHINE_RAM=$CVM_NODE_MACHINE_RAM
+		CVM_MACHINE_OS_TYPE=$CVM_NODE_MACHINE_OS_TYPE
+		CVM_MACHINE_OS_VARIANT=$CVM_NODE_MACHINE_OS_VARIANT
+		CVM_MACHINE_STORAGE_SIZE=$CVM_NODE_MACHINE_STORAGE_SIZE
+		CVM_MACHINE_ISO=$CVM_NODE_MACHINE_ISO
+	fi
+
+	# Gluster..
+	if [[ $MACHINE == *"gluster"* ]]; then
+		CVM_MACHINE_VCPU=$CVM_GLUSTER_MACHINE_VCPU
+		CVM_MACHINE_RAM=$CVM_GLUSTER_MACHINE_RAM
+		CVM_MACHINE_OS_TYPE=$CVM_GLUSTER_MACHINE_OS_TYPE
+		CVM_MACHINE_OS_VARIANT=$CVM_GLUSTER_MACHINE_OS_VARIANT
+		CVM_MACHINE_STORAGE_SIZE=$CVM_GLUSTER_MACHINE_STORAGE_SIZE
+		CVM_MACHINE_ISO=$CVM_GLUSTER_MACHINE_ISO
+	fi
+
+	# ElasticSearch..
+	if [[ $MACHINE == *"elasticsearch"* ]]; then
+		CVM_MACHINE_VCPU=$CVM_ELASTICSEARCH_MACHINE_VCPU
+		CVM_MACHINE_RAM=$CVM_ELASTICSEARCH_MACHINE_RAM
+		CVM_MACHINE_OS_TYPE=$CVM_ELASTICSEARCH_MACHINE_OS_TYPE
+		CVM_MACHINE_OS_VARIANT=$CVM_ELASTICSEARCH_MACHINE_OS_VARIANT
+		CVM_MACHINE_STORAGE_SIZE=$CVM_ELASTICSEARCH_MACHINE_STORAGE_SIZE
+		CVM_MACHINE_ISO=$CVM_ELASTICSEARCH_MACHINE_ISO
+	fi
+
+	# Nodes..
+	if [[ $MACHINE == *"node"* ]]; then
+		CVM_MACHINE_VCPU=$CVM_NODE_MACHINE_VCPU
+		CVM_MACHINE_RAM=$CVM_NODE_MACHINE_RAM
+		CVM_MACHINE_OS_TYPE=$CVM_NODE_MACHINE_OS_TYPE
+		CVM_MACHINE_OS_VARIANT=$CVM_NODE_MACHINE_OS_VARIANT
+		CVM_MACHINE_STORAGE_SIZE=$CVM_NODE_MACHINE_STORAGE_SIZE
+		CVM_MACHINE_ISO=$CVM_NODE_MACHINE_ISO
+	fi
+
+	#
+	sudo virt-install --name=$MACHINE \
+		--disk path=/var/lib/libvirt/images/$MACHINE.qcow2,size=$CVM_MACHINE_STORAGE_SIZE,bus=virtio \
+		--vcpus=$CVM_MACHINE_VCPU --ram=$CVM_MACHINE_RAM \
+		--network=default --mac="$MAC_ADDRESS" \
+		--location=$CVM_MACHINE_ISO \
+		--os-type=$CVM_MACHINE_OS_TYPE --os-variant=$CVM_MACHINE_OS_VARIANT \
+		--metadata title="$MACHINE",description="$CVM_DESCRIPTION" \
+		--initrd-inject=/tmp/ks_$MACHINE.cfg \
+		--extra-args="ks=file:///ks_$MACHINE.cfg console=tty0 console=ttyS0,115200n8" &
+
+	## Use sleep to eliminate asynchronous jobs running:
+	# Retrieving file .treeinfo...                                                                                               | 1.9 kB  00:00:00
+	# ERROR    Error: --disk path=/var/lib/libvirt/images/juichi-ichi-infra-node.qcow2,size=50,bus=virtio: Cannot use storage /var/lib/libvirt/images/juichi-ichi-infra-node.qcow2: internal error: pool 'default' has asynchronous jobs running.
+	sleep 5
+}
+
+# Create all virtual machines..
+for machine in $CVM_MACHINES
+do
+	MY_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+	MAC_ADDRESS=$($MY_PATH/cluster $machine info-mac)
+
+	# Remove machine from $HOME/.ssh/knowen_hosts
+	KNOWN_HOSTS=$HOME/.ssh/known_hosts
+	sed -i -e "/$machine/d" $KNOWN_HOSTS
+	#
+	# Use this in the $HOME/.ssh/config:
+	#
+	# Host *.local.nutius.com
+	#    UserKnownHostsFile /dev/null
+	#    StrictHostKeyChecking no
+	#
+
+	#
+	echo "Creating virtual machine: $machine $MAC_ADDRESS"
+	create_virtual_machine "$machine" "$MAC_ADDRESS"
+done

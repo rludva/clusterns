@@ -1,0 +1,2 @@
+/var/pv/storage *(rw,async,all_squash)
+/var/pv/database *(rw,async,all_squash)

@@ -1,0 +1,49 @@
+#!/usr/bin/bash
+
+# Basic color values..
+red=`tput setaf 1`
+green=`tput setaf 2`
+yellow=`tput setaf 3`
+reset=`tput sgr0`
+
+# root and normal user password..
+if [ -z "$PASSWORD" ]; then
+  echo "Missing ${yellow}PASSWORD${reset} environment variable.."
+  echo
+  exit
+fi
+
+# Organization for subscription-manager..
+if [ -z "$ORGANIZATION" ]; then
+  echo "Missing ${yellow}ORGANIZATION${reset} environment variable.."
+  echo
+  exit
+fi
+
+# Activation key for subscription-manager..
+if [ -z "$ACTIVATION_KEY" ]; then
+  echo "Missing ${yellow}ACTIVATION_KEY${reset} environment variable.."
+  echo
+  exit
+fi
+
+# Pool ID for subscription-manager..
+if [ -z "$POOLID" ]; then
+  echo "Missing ${yellow}POOLID${reset} environment variable.."
+  echo
+  exit
+fi
+
+# oreg_auth_user
+if [ -z "$OREG_AUTH_USER" ]; then
+  echo "Missing ${yellow}OREG_AUTH_USER${reset} environment variable.."
+  echo
+  exit
+fi
+
+# oreg_auth_password
+if [ -z "$OREG_AUTH_PASSWORD" ]; then
+  echo "Missing ${yellow}OREG_AUTH_PASSWORD${reset} environment variable.."
+  echo
+  exit
+fi

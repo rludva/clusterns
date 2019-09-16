@@ -1,0 +1,86 @@
+
+192.168.122.150   go-workstation.local.nutius.com
+192.168.122.151   go-ichi-master.local.nutius.com
+192.168.122.152   go-ichi-infra-node.local.nutius.com
+192.168.122.153   go-ichi-node.local.nutius.com
+
+192.168.122.160   roku-workstation.local.nutius.com
+192.168.122.161   roku-ichi-master.local.nutius.com
+192.168.122.162   roku-ichi-infra-node.local.nutius.com
+192.168.122.163   roku-ichi-node.local.nutius.com
+
+192.168.122.10   shichi-workstation.local.nutius.com
+192.168.122.11   shichi-ichi-master.local.nutius.com
+192.168.122.12   shichi-ichi-infra-node.local.nutius.com
+192.168.122.13   shichi-ichi-node.local.nutius.com
+
+192.168.122.40   kyuu-workstation.local.nutius.com
+192.168.122.41   kyuu-ichi-master.local.nutius.com
+192.168.122.42   kyuu-ichi-node.local.nutius.com
+
+192.168.122.50   kyuuni-workstation.local.nutius.com
+192.168.122.51   kyuuni-ichi-master.local.nutius.com
+192.168.122.52   kyuuni-ichi-node.local.nutius.com
+
+192.168.122.60   kyuusan-workstation.local.nutius.com
+192.168.122.61   kyuusan-ichi-master.local.nutius.com
+192.168.122.62   kyuusan-ichi-node.local.nutius.com
+
+192.168.122.140   kyuuroku-workstation.local.nutius.com
+192.168.122.141   kyuuroku-ichi-master.local.nutius.com
+192.168.122.142   kyuuroku-ichi-node.local.nutius.com
+192.168.122.143   kyuuroku-ni-node.local.nutius.com
+192.168.122.144   kyuuroku-ichi-infra-node.local.nutius.com
+192.168.122.145   kyuuroku-ni-infra-node.local.nutius.com
+192.168.122.146   kyuuroku-san-infra-node.local.nutius.com
+
+192.168.122.64   ju-workstation.local.nutius.com
+192.168.122.65   ju-ichi-master.local.nutius.com
+192.168.122.66   ju-ichi-node.local.nutius.com
+192.168.122.67   ju-ni-node.local.nutius.com
+192.168.122.68   ju-ichi-infra-node.local.nutius.com
+192.168.122.69   ju-ni-infra-node.local.nutius.com
+
+192.168.122.70   juichi-workstation.local.nutius.com
+192.168.122.71   juichi-ichi-master.local.nutius.com
+192.168.122.72   juichi-ichi-node.local.nutius.com
+192.168.122.73   juichi-ni-node.local.nutius.com
+192.168.122.74   juichi-ichi-infra-node.local.nutius.com
+192.168.122.75   juichi-ni-infra-node.local.nutius.com
+
+192.168.122.120   jusan-workstation.local.nutius.com
+192.168.122.121   jusan-ichi-master.local.nutius.com
+192.168.122.122   jusan-ichi-node.local.nutius.com
+192.168.122.123   jusan-ni-node.local.nutius.com
+192.168.122.124   jusan-ichi-infra-node.local.nutius.com
+192.168.122.125   jusan-ni-infra-node.local.nutius.com
+192.168.122.126   jusan-san-infra-node.local.nutius.com
+
+192.168.122.130   juichiroku-workstation.local.nutius.com
+192.168.122.131   juichiroku-ichi-master.local.nutius.com
+192.168.122.132   juichiroku-ni-master.local.nutius.com
+192.168.122.133   juichiroku-san-master.local.nutius.com
+192.168.122.134   juichiroku-ichi-node.local.nutius.com
+192.168.122.135   juichiroku-ni-node.local.nutius.com
+192.168.122.136   juichiroku-ichi-infra-node.local.nutius.com
+192.168.122.137   juichiroku-ni-infra-node.local.nutius.com
+
+192.168.122.90   che-workstation.local.nutius.com
+192.168.122.91   che-ichi-master.local.nutius.com
+192.168.122.92   che-ichi-node.local.nutius.com
+192.168.122.93   che-ichi-infra-node.local.nutius.com
+
+192.168.122.101   gluster-a.local.nutius.com
+192.168.122.102   gluster-b.local.nutius.com
+192.168.122.103   gluster-c.local.nutius.com
+
+192.168.122.111   elasticsearch-a.local.nutius.com
+192.168.122.112   elasticsearch-b.local.nutius.com
+192.168.122.113   elasticsearch-c.local.nutius.com
+192.168.122.114   elasticsearch-d.local.nutius.com
+192.168.122.115   elasticsearch-e.local.nutius.com
+
+192.168.122.80   workstation.local.nutius.com
+192.168.122.81   master.local.nutius.com
+192.168.122.82   node1.local.nutius.com
+192.168.122.83   node2.local.nutius.com

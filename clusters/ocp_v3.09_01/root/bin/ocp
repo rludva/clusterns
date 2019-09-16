@@ -1,0 +1,35 @@
+#!/bin/bash -
+
+subscription-manager refresh
+subscription-manager list --available >> /root/list.txt
+subscription-manager attach --pool=__POOLID__
+subscription-manager repos --disable="*"
+
+yum-config-manager --disable *
+
+subscription-manager repos \
+ --enable="rhel-7-server-rpms" \
+ --enable="rhel-7-server-extras-rpms" \
+ --enable="rhel-7-server-ose-3.9-rpms" \
+ --enable="rhel-7-fast-datapath-rpms" \
+ --enable="rhel-7-server-ansible-2.4-rpms"
+
+yum install -y wget git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct
+yum update -y
+yum install -y atomic-openshift-utils
+yum install -y docker
+
+systemctl enable docker
+systemctl start docker
+systemctl is-active docker
+
+# QuickInstallation
+# =================
+# Quick installation is not supported, do no use it. Here it is just because I was
+# trying to use in as a very first attempt to install OCP.
+#
+# Step 1: atomic-openshift-installer install
+# Step 2: systemctl restart atomic-openshift-master-api atomic-openshift-master-controllers
+#
+# Step 3: oc login -u system:admin
+# Step 4: oc get nodes

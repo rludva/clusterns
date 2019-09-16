@@ -1,0 +1,45 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: REDACTED
+    server: https://192.168.42.28:8443
+  name: 192-168-42-28:8443
+- cluster:
+    certificate-authority: /home/rludva/.minikube/ca.crt
+    server: https://192.168.42.24:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    user: minikube
+  name: minikube
+- context:
+    cluster: 192-168-42-28:8443
+    namespace: myproject
+    user: developer/192-168-42-28:8443
+  name: minishift
+- context:
+    cluster: 192-168-42-28:8443
+    namespace: myproject
+    user: developer/192-168-42-28:8443
+  name: myproject/192-168-42-28:8443/developer
+- context:
+    cluster: 192-168-42-28:8443
+    namespace: myproject
+    user: system:admin/192-168-42-28:8443
+  name: myproject/192-168-42-28:8443/system:admin
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: developer/192-168-42-28:8443
+  user:
+    token: aRpjOfZh60C7uuMgrgeL11gpM4VdW6hU9cInYqGCqkY
+- name: minikube
+  user:
+    client-certificate: /home/rludva/.minikube/client.crt
+    client-key: /home/rludva/.minikube/client.key
+- name: system:admin/192-168-42-28:8443
+  user:
+    client-certificate-data: REDACTED
+    client-key-data: REDACTED

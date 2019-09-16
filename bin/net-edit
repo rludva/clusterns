@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+sudo virsh net-edit default
+sudo virsh net-destroy default
+sudo virsh net-start default

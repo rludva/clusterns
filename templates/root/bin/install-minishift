@@ -1,0 +1,24 @@
+#!/bin/bash -
+
+# The following procedure assumes that the CDK is running on GNU/Linux. Prepare the system by enabling rhel-7-server-rpms, rhel-7-server-devtools-rpms, rhel-server-rhscl-7-rpms repositories using subscription-manager.
+subscription-manager repos --enable=rhel-7-server-rpms
+subscription-manager repos --enable=rhel-7-server-devtools-rpms
+subscription-manager repos --enable=rhel-server-rhscl-7-rpms
+
+# Import the Red Hat Developer Tools key to your system so yum can verify the integrity of the downloaded packages.
+rpm --import https://www.redhat.com/security/data/a5787476.txt
+
+# Once the public key is successfully imported, install minishift.
+yum install -y cdk-minishift docker-machine-kvm
+
+# Minishift offers Red Hat Enterprise Linux 7 VM and a local OpenShift cluster running inside the VM, as part of the Container Development Kit. Set up the components of the CDK environment with the following command..
+minishift setup-cdk
+
+# Update the PATH environment variable..
+
+echo Be sure that ~/.minishift/cache/oc/v3.9.14/linux is in your PATH variable!
+PATH=$PATH:/root/.minishift/cache/oc/v3.9.31/linux
+#
+# Note that for new version the path v3.9.31 will change!!!
+# It is a bad smell so here in the absolute path..
+#

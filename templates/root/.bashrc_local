@@ -1,0 +1,32 @@
+PATH=/root/bin:$PATH
+
+export EDITOR="vim"
+
+alias e="exit"
+alias c="clear"
+alias ,="cd \/"
+alias ll="ls -l"
+
+alias o="/root/bin/ocp"
+alias s="/root/bin/ssh-stuff.sh"
+alias p="ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml"
+alias d="ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml"
+alias c="ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml"
+alias l="ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/openshift-logging/config.yml"
+alias u310="ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/openshift-cluster/upgrades/v3_10/upgrade.yml"
+
+alias n="vim /etc/ansible/hosts"
+alias m="vim /etc/origin/master/master-config.yaml"
+alias r="systemctl restart atomic-openshift-master-api atomic-openshift-master-controllers"
+
+alias ocw="oc whoami"
+alias ocp="oc get pods"
+alias ocpa="oc get pods --all-namespaces"
+alias ocn="oc get nodes"
+alias ods="oc get daemonset"
+alias orc="oc get replicationcontroller"
+alias odc="oc get daemonset"
+alias ocm="oc get configmap"
+alias obc="oc get buildconfig"
+
+export SSHPASS="__DEFAULT_SSHPASS__"
