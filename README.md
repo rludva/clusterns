@@ -2,7 +2,7 @@
 Purporse of this repository is to build environment for different cluster templates primary of OCP, Elasticsearch, Gluster and similar technologies.
 
 All hostnames/nodes have already DNS records. You can investigate the IP address with dig <host>. For exampel
-```bash
+``` bash
 [rludva@orenji ~]$ dig juichi-ichi-master.local.nutius.com
 
 ; <<>> DiG 9.11.8-RedHat-9.11.8-1.fc30 <<>> juichi-ichi-master.local.nutius.com

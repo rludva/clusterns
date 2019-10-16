@@ -111,9 +111,9 @@ function command_id {
   fi
 
   sed -i -e "/$machine/d" $KNOWN_HOSTS
-  ssh-keyscan -4 -t rsa $machine_url >> $KNOWN_HOSTS
-  sshpass -e ssh-copy-id -i $PUBLIC_KEY $machine_url
-  sshpass -e ssh-copy-id -i $PUBLIC_KEY root@$machine_url
+  ssh-keyscan -H -t rsa $machine_url >> $KNOWN_HOSTS
+  sshpass -p $SSHPASS ssh-copy-id -o StrictHostKeyChecking=no -i $PUBLIC_KEY $machine_url
+  sshpass -p $SSHPASS ssh-copy-id -o StrictHostKeyChecking=no -i $PUBLIC_KEY root@$machine_url
 }
 
 function command_root-id {
@@ -133,8 +133,8 @@ function command_root-id {
   fi
 
   sed -i -e "/$machine/d" $KNOWN_HOSTS
-  ssh-keyscan -4 -t rsa $machine_url >> $KNOWN_HOSTS
-  sshpass -e ssh-copy-id -i $PUBLIC_KEY $machine_url
+  ssh-keyscan -H -t rsa $machine_url >> $KNOWN_HOSTS
+  sshpass -p $SSHPASS ssh-copy-id -o StrictHostKeyChecking=no -i $PUBLIC_KEY $machine_url
 }
 
 function command_unregister {
