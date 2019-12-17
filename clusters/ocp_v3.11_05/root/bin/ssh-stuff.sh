@@ -24,17 +24,3 @@ sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub juichigo-ichi-node.local.nutius.
 sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub juichigo-ni-node.local.nutius.com
 sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub juichigo-ichi-infra-node.local.nutius.com
 sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub juichigo-ni-infra-node.local.nutius.com
-
-#
-ssh juichigo-ichi-master.local.nutius.com "ssh-keygen -f /root/.ssh/id_rsa -N ''"
-
-ssh juichigo-ichi-master.local.nutius.com "ssh-keyscan -H juichigo-ichi-node.local.nutius.com >> /root/.ssh/known_hosts"
-ssh juichigo-ichi-master.local.nutius.com "ssh-keyscan -H juichigo-ni-node.local.nutius.com >> /root/.ssh/known_hosts"
-ssh juichigo-ichi-master.local.nutius.com "ssh-keyscan -H juichigo-ichi-infra-node.local.nutius.com >> /root/.ssh/known_hosts"
-ssh juichigo-ichi-master.local.nutius.com "ssh-keyscan -H juichigo-ni-infra-node.local.nutius.com >> /root/.ssh/known_hosts"
-
-#
-ssh juichigo-ichi-master.local.nutius.com "sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub juichigo-ichi-node.local.nutius.com"
-ssh juichigo-ichi-master.local.nutius.com "sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub juichigo-ni-node.local.nutius.com"
-ssh juichigo-ichi-master.local.nutius.com "sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub juichigo-ichi-infra-node.local.nutius.com"
-ssh juichigo-ichi-master.local.nutius.com "sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub juichigo-ni-infra-node.local.nutius.com"

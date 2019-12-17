@@ -20,14 +20,3 @@ ssh-keyscan -H roku-ichi-infra-node.local.nutius.com  >> /root/.ssh/known_hosts
 sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub roku-ichi-master.local.nutius.com
 sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub roku-ichi-node.local.nutius.com
 sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub roku-ichi-infra-node.local.nutius.com
-
-# Create public/private key on master..
-ssh roku-ichi-master.local.nutius.com "ssh-keygen -f /root/.ssh/id_rsa -N ''"
-
-#
-ssh roku-ichi-master.local.nutius.com "ssh-keyscan -H roku-ichi-node.local.nutius.com >> /root/.ssh/known_hosts"
-ssh roku-ichi-master.local.nutius.com "ssh-keyscan -H roku-ichi-infra-node.local.nutius.com >> /root/.ssh/known_hosts"
-
-#
-ssh roku-ichi-master.local.nutius.com "sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub roku-ichi-node.local.nutius.com"
-ssh roku-ichi-master.local.nutius.com "sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub roku-ichi-infra-node.local.nutius.com"

@@ -1,8 +1,14 @@
 #!/bin/bash -
 
 subscription-manager refresh
-#subscription-manager list --available >> /root/list.txt
-subscription-manager attach --pool=8a85f9833e1404a9013e3cddf95a0599
+subscription-manager list --available >> /root/list.txt
+
+if [ -z "$POOLID" ]; then
+  echo "Please select POOLID from /root/list.txt and set the POOLID environment variable: export POOLID=__poolid__"
+  exit
+fi
+
+subscription-manager attach --pool="$POOLID"
 subscription-manager repos --disable="*"
 
 yum-config-manager --disable *

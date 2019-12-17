@@ -26,19 +26,3 @@ sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub kyuuroku-ni-node.local.nutius.co
 sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub kyuuroku-ichi-infra-node.local.nutius.com
 sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub kyuuroku-ni-infra-node.local.nutius.com
 sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub kyuuroku-san-infra-node.local.nutius.com
-
-#
-ssh kyuuroku-ichi-master.local.nutius.com "ssh-keygen -f /root/.ssh/id_rsa -N ''"
-
-ssh kyuuroku-ichi-master.local.nutius.com "ssh-keyscan -H kyuuroku-ichi-node.local.nutius.com >> /root/.ssh/known_hosts"
-ssh kyuuroku-ichi-master.local.nutius.com "ssh-keyscan -H kyuuroku-ni-node.local.nutius.com >> /root/.ssh/known_hosts"
-ssh kyuuroku-ichi-master.local.nutius.com "ssh-keyscan -H kyuuroku-ichi-infra-node.local.nutius.com >> /root/.ssh/known_hosts"
-ssh kyuuroku-ichi-master.local.nutius.com "ssh-keyscan -H kyuuroku-ni-infra-node.local.nutius.com >> /root/.ssh/known_hosts"
-ssh kyuuroku-ichi-master.local.nutius.com "ssh-keyscan -H kyuuroku-san-infra-node.local.nutius.com >> /root/.ssh/known_hosts"
-
-#
-ssh kyuuroku-ichi-master.local.nutius.com "sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub kyuuroku-ichi-node.local.nutius.com"
-ssh kyuuroku-ichi-master.local.nutius.com "sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub kyuuroku-ni-node.local.nutius.com"
-ssh kyuuroku-ichi-master.local.nutius.com "sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub kyuuroku-ichi-infra-node.local.nutius.com"
-ssh kyuuroku-ichi-master.local.nutius.com "sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub kyuuroku-ni-infra-node.local.nutius.com"
-ssh kyuuroku-ichi-master.local.nutius.com "sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub kyuuroku-san-infra-node.local.nutius.com"

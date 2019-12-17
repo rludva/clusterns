@@ -5,9 +5,5 @@ alias c="clear"
 alias ,="cd \/"
 alias oo="sudo su"
 
-alias ocl='oc login -udeveloper https://localhost:8443'
-alias ocgp='oc get pods -o wide'
-alias ocgn='oc get nodes -o wide'
-alias ocp='oc new-project sproject --description=̈́"Simple project.." --display-name="SProject"'
-alias ocdp='oc describe project sproject'
-alias ocdep='oc delete project sproject'
+alias ocp='oc get pods -o wide'
+alias ocn='oc get nodes -o wide'

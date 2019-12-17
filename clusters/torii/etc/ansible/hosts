@@ -21,12 +21,15 @@ torii-san-master.local.nutius.com
 
 [nodes]
 torii-ichi-master.local.nutius.com openshift_node_group_name='node-config-master'
-torii-ichi-node.local.nutius.com openshift_node_group_name='node-config-compute'
+torii-ni-master.local.nutius.com openshift_node_group_name='node-config-master'
+torii-san-master.local.nutius.com openshift_node_group_name='node-config-master'
 torii-ichi-infra-node.local.nutius.com openshift_node_group_name='node-config-infra'
 torii-ni-infra-node.local.nutius.com openshift_node_group_name='node-config-infra'
 torii-san-infra-node.local.nutius.com openshift_node_group_name='node-config-infra'
-torii-ni-master.local.nutius.com openshift_node_group_name='node-config-master'
-torii-san-master.local.nutius.com openshift_node_group_name='node-config-master'
+torii-ichi-node.local.nutius.com openshift_node_group_name='node-config-compute'
+torii-ni-node.local.nutius.com openshift_node_group_name='node-config-compute'
+torii-san-node.local.nutius.com openshift_node_group_name='node-config-compute'
+torii-go-node.local.nutius.com openshift_node_group_name='node-config-compute'
 
 [glusterfs]
 torii-ichi-gluster.local.nutius.com glusterfs_ip=192.168.0.51 glusterfs_devices='[ "/dev/sdb" ]'

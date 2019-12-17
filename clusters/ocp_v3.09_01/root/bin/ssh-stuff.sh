@@ -18,10 +18,3 @@ ssh-keyscan -H kyuu-ichi-node.local.nutius.com >> /root/.ssh/known_hosts
 #
 sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub kyuu-ichi-master.local.nutius.com
 sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub kyuu-ichi-node.local.nutius.com
-
-#
-ssh kyuu-ichi-master.local.nutius.com "ssh-keygen -f /root/.ssh/id_rsa -N ''"
-
-#
-ssh kyuu-ichi-master.local.nutius.com "ssh-keyscan -H kyuu-ichi-node.local.nutius.com >> /root/.ssh/known_hosts"
-ssh kyuu-ichi-master.local.nutius.com "sshpass -e ssh-copy-id -i /root/.ssh/id_rsa.pub kyuu-ichi-node.local.nutius.com"
