@@ -7,7 +7,13 @@
   <ip address='192.168.122.1' netmask='255.255.255.0'>
     <dhcp>
       <range start='192.168.122.2' end='192.168.122.254'/>
-      <range start='192.168.122.2' end='192.168.122.254'/>
+      <host mac='52:54:00:ab:c0:30' name='mini-workstation' ip='192.168.122.180'/>
+      <host mac='52:54:00:ab:c1:30' name='minia-node' ip='192.168.122.181'/>
+      <host mac='52:54:00:ab:c2:30' name='minie-node' ip='192.168.122.182'/>
+      <host mac='52:54:00:ab:c3:30' name='minii-node' ip='192.168.122.183'/>
+      <host mac='52:54:00:ab:c4:30' name='minio-node' ip='192.168.122.184'/>
+      <host mac='52:54:00:ab:c5:30' name='miniu-node' ip='192.168.122.185'/>
+
       <host mac='52:54:00:ab:01:30' name='ichi-workstation' ip='192.168.122.30'/>
       <host mac='52:54:00:ab:01:31' name='ichi-ichi-master' ip='192.168.122.31'/>
       <host mac='52:54:00:ab:01:32' name='ichi-ichi-infra-node' ip='192.168.122.32'/>

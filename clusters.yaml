@@ -3,6 +3,30 @@ kind: Clusterns
 metada:
   name: personal-clusterns
 spec:
+  cluster:
+    name: mini
+    alias: mini
+    url: local.nutius.com
+    hosts:
+      host:
+        name: mini-workstation
+        mac: 52:54:00:ab:c0:00
+      host:
+        name: minia-node
+        mac: 52:54:00:ab:c1:01
+      host:
+        name: minie-node
+        mac: 52:54:00:ab:c2:02
+      host:
+        name: minii-node
+        mac: 52:54:00:ab:c3:03
+      host:
+        name: minio-node
+        mac: 52:54:00:ab:c4:04
+      host:
+        name: miniu-node
+        mac: 52:54:00:ab:c5:05
+
   cluster: 
     name: ocp_v3.01_01
     alias: ichi

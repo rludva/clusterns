@@ -1,3 +1,10 @@
+;mini;mini;mini-workstation;mini-workstation.local.nutius.com;52:54:00:ab:c0:00
+;mini;mini;minia-node;minia-node.local.nutius.com;52:54:00:ab:c1:01
+;mini;mini;minie-node;minie-node.local.nutius.com;52:54:00:ab:c2:02
+;mini;mini;minii-node;minii-node.local.nutius.com;52:54:00:ab:c3:03
+;mini;mini;minio-node;minio-node.local.nutius.com;52:54:00:ab:c4:04
+;mini;mini;miniu-node;miniu-node.local.nutius.com;52:54:00:ab:c5:05
+
 ;ocp_v3.01_01;ichi;ichi-workstation;ichi-workstation.local.nutius.com;52:54:00:ab:01:30
 ;ocp_v3.01_01;ichi;ichi-ichi-master;ichi-ichi-master.local.nutius.com;52:54:00:ab:01:31
 ;ocp_v3.01_01;ichi;ichi-ichi-infra-node;ichi-ichi-infra-node.local.nutius.com;52:54:00:ab:01:32
@@ -94,7 +101,6 @@
 ;elasticsearch;elasticsearch;elasticsearch-c;elasticsearch-c.local.nutius.com;52:54:00:ab:11:b3
 ;elasticsearch;elasticsearch;elasticsearch-d;elasticsearch-d.local.nutius.com;52:54:00:ab:11:b4
 ;elasticsearch;elasticsearch;elasticsearch-e;elasticsearch-e.local.nutius.com;52:54:00:ab:11:b5
-
 
 ;torii;torii;torii-ichi-master;torii-ichi-master.local.nutius.com;F8:B1:56:B6:40:CB
 ;torii;torii;torii-ichi-infra-node;torii-ichi-infra-node.local.nutius.com;F8:B1:56:C1:07:06
