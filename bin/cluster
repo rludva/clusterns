@@ -100,6 +100,13 @@ function command_show-active-cluster {
   exit
 }
 
+function command_keyscan {
+  KNOWN_HOSTS=$HOME/.ssh/known_hosts
+
+  sed -i -e "/$machine/d" $KNOWN_HOSTS
+  ssh-keyscan -t rsa $machine_url >> $KNOWN_HOSTS
+}
+
 function command_id {
   KNOWN_HOSTS=$HOME/.ssh/known_hosts
   PUBLIC_KEY=$HOME/.ssh/id_rsa.pub
@@ -111,7 +118,7 @@ function command_id {
   fi
 
   sed -i -e "/$machine/d" $KNOWN_HOSTS
-  ssh-keyscan -H -t rsa $machine_url >> $KNOWN_HOSTS
+  ssh-keyscan -t rsa $machine_url >> $KNOWN_HOSTS
   sshpass -p $SSHPASS ssh-copy-id -o StrictHostKeyChecking=no -i $PUBLIC_KEY $machine_url
   sshpass -p $SSHPASS ssh-copy-id -o StrictHostKeyChecking=no -i $PUBLIC_KEY root@$machine_url
 }
@@ -355,6 +362,9 @@ do
   ;;
   "id")
     command_id
+  ;;
+  "keyscan")
+    command_keyscan
   ;;
   "root-id")
     command_root-id
