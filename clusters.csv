@@ -102,11 +102,16 @@
 ;elasticsearch;elasticsearch;elasticsearch-d;elasticsearch-d.local.nutius.com;52:54:00:ab:11:b4
 ;elasticsearch;elasticsearch;elasticsearch-e;elasticsearch-e.local.nutius.com;52:54:00:ab:11:b5
 
+;torii;torii;torii-lb;torii-lb.local.nutius.com;B8:CA:3A:74:40:41
 ;torii;torii;torii-ichi-master;torii-ichi-master.local.nutius.com;F8:B1:56:B6:40:CB
+;torii;torii;torii-ni-master;torii-ni-master.local.nutius.com;90:B1:1C:87:3C:A3 
+;torii;torii;torii-san-master;torii-san-master.local.nutius.com;90:B1:1C:A3:45:2D
 ;torii;torii;torii-ichi-infra-node;torii-ichi-infra-node.local.nutius.com;F8:B1:56:C1:07:06
-;torii;torii;torii-ni-infra-node;torii-ni-infra-node.local.nutius.com;f8:b1:56:d9:2e:a1
-;torii;torii;torii-san-infra-node;torii-san-infra-node.local.nutius.com;f8:b1:56:cb:81:87
+;torii;torii;torii-ni-infra-node;torii-ni-infra-node.local.nutius.com;F8:B1:56:D9:2E:A1
+;torii;torii;torii-san-infra-node;torii-san-infra-node.local.nutius.com;F8:B1:56:cb:81:87
 ;torii;torii;torii-ichi-node;torii-ichi-node.local.nutius.com;F8:B1:56:C1:70:F2
-;torii;torii;torii-ichi-gluster;torii-ichi-gluster.local.nutius.com;xx-xx-xx-xx-xx-xx
-;torii;torii;torii-ni-gluster;torii-ichi-gluster.local.nutius.com;xx-xx-xx-xx-xx-xx
-;torii;torii;torii-san-gluster;torii-ichi-gluster.local.nutius.com;xx-xx-xx-xx-xx-xx
+;torii;torii;torii-ni-node;torii-ni-node.local.nutius.com;6C:62:6D:A5:EB:6D
+;torii;torii;torii-san-node;torii-san-node.local.nutius.com;6C:62:6D:A7:35:46
+;torii;torii;torii-ichi-gluster;torii-ichi-gluster.local.nutius.com;00:22:64:BB:F9:FD
+;torii;torii;torii-ni-gluster;torii-ichi-gluster.local.nutius.com;00:22:64:BB:C8:0F
+;torii;torii;torii-san-gluster;torii-ichi-gluster.local.nutius.com;00:22:64:BB:4D:AA
